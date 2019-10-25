@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="hello_str">0</string>
+    <string name="button1">Random</string>
+    <string name="btn2">Count</string>
+    <string name="btn3">Toast</string>
+    <string name="hint">enter math expression</string>
+</resources>
