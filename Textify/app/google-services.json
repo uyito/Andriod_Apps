@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "341480673433",
+    "firebase_url": "https://textify-93083.firebaseio.com",
+    "project_id": "textify-93083",
+    "storage_bucket": "textify-93083.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341480673433:android:e4b0cca8914688abf96808",
+        "android_client_info": {
+          "package_name": "com.example.textify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341480673433-u9jtni03qptr0r95rbvrklkc6vsgbssk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnSzW5Ia8isvY6fwmMw_iVvckg08h4Swc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341480673433-u9jtni03qptr0r95rbvrklkc6vsgbssk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
