@@ -2,12 +2,11 @@ package com.example.textify
 
 import android.app.Activity
 import android.content.Intent
+import android.content.Intent.ACTION_CHOOSER
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.graphics.Bitmap
-import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.getBitmap
 import android.util.Log
 import android.widget.Toast
@@ -39,10 +38,12 @@ class SignUpActivity : AppCompatActivity() {
 
         profile_img.setOnClickListener{
             Log.d("SignUpActivity", "try to show photo")
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-//            val intent = Intent(Intent.ACTION_PICK)
+//            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            val intent = Intent(Intent.ACTION_PICK)
             intent.type = "images/*"
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0)
+//            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0)
+            startActivityForResult(Intent.createChooser(intent, "Select Photo"), 0)
+
         }
 
 
@@ -101,8 +102,8 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to create User: ${it.message}", Toast.LENGTH_SHORT).show()
 
             }
-        val intent = Intent(this, HomePageActivity::class.java)
-            startActivity(intent)
+//        val intent = Intent(this, MessagePageActivity::class.java)
+//            startActivity(intent)
     }
 
     private fun uploadProfile_Img_to_Firebase(){
@@ -137,6 +138,15 @@ class SignUpActivity : AppCompatActivity() {
         ref.setValue(user)
             .addOnSuccessListener {
                 Log.d("SignupActivity", "saved user to Firebase DB")
+
+            val intent = Intent(this, MessagePageActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+
+
+            }
+            .addOnFailureListener {
+                Log.d("SignupActivity", "Failed to set value to DB: ${it.message}")
             }
     }
 }
