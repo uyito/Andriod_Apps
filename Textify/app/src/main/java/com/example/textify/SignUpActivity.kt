@@ -6,15 +6,18 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.graphics.Bitmap
 import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media.getBitmap
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-@Suppress("PLUGIN_WARNING")
+@Suppress("PLUGIN_WARNING", "DEPRECATION")
 class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +42,7 @@ class SignUpActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
 //            val intent = Intent(Intent.ACTION_PICK)
             intent.type = "images/*"
-            startActivityForResult(intent, 0)
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0)
         }
 
 
@@ -56,8 +59,12 @@ class SignUpActivity : AppCompatActivity() {
 
             selectedPhotoLocation = data.data
 
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoLocation)
+            val bitmap = getBitmap(contentResolver, selectedPhotoLocation)
 
+
+//            image_view.setImageBitmap(bitmap)
+//
+//            profile_img.alpha = 0f
             val bitmapDrawable = BitmapDrawable(bitmap)
             profile_img.setBackgroundDrawable(bitmapDrawable)
         }
@@ -94,6 +101,8 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to create User: ${it.message}", Toast.LENGTH_SHORT).show()
 
             }
+        val intent = Intent(this, HomePageActivity::class.java)
+            startActivity(intent)
     }
 
     private fun uploadProfile_Img_to_Firebase(){
@@ -111,7 +120,25 @@ class SignUpActivity : AppCompatActivity() {
                 ref.downloadUrl.addOnSuccessListener { 
                     it.toString()
                     Log.d("SignUp", "File Location: $it")
+
+                    saveUserToFirebase_DB(it.toString())
                 }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    private fun saveUserToFirebase_DB(profileImageUrl: String){
+        val uid = FirebaseAuth.getInstance().uid ?:""
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
+        var user = User(usrname_register.text.toString(), profileImageUrl,uid)
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d("SignupActivity", "saved user to Firebase DB")
             }
     }
 }
+
+class User(val Username: String, val profileImageUrl: String, val uid: String)

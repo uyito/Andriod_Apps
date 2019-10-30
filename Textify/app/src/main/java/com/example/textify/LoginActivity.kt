@@ -48,11 +48,15 @@ class LoginActivity : AppCompatActivity() {
             }
             Toast.makeText(this, "Signed In Successfully😁", Toast.LENGTH_SHORT).show()
             Log.d("Main", "Successfully Logged In user with Uid: ${it.result?.user?.uid}")
+//            val intent = Intent(this, HomePageActivity::class.java)
+//            startActivity(intent)
 
         }.addOnFailureListener {
             Log.d("Main", "Failed to Log in: ${it.message}")
             Toast.makeText(this, "Failed to Login  User: ${it.message}", Toast.LENGTH_SHORT).show()
-
         }
+        val intent = Intent(this, HomePageActivity::class.java)
+        startActivity(intent)
+
     }
 }
