@@ -38,11 +38,10 @@ class SignUpActivity : AppCompatActivity() {
 
         profile_img.setOnClickListener{
             Log.d("SignUpActivity", "try to show photo")
-//            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            val intent = Intent(Intent.ACTION_PICK)
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+//            val intent = Intent(Intent.ACTION_PICK)
             intent.type = "images/*"
-//            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0)
-            startActivityForResult(Intent.createChooser(intent, "Select Photo"), 0)
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0)
 
         }
 
