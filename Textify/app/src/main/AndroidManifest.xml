@@ -29,11 +29,15 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".StartMessageActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MessagePageActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MessagePageActivity" />
         </activity>
-
-
+        <activity android:name=".ConversationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MessagePageActivity" />
+        </activity>
     </application>
 
 </manifest>

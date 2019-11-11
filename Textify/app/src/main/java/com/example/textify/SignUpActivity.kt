@@ -3,6 +3,7 @@ package com.example.textify
 import android.app.Activity
 import android.content.Intent
 import android.content.Intent.ACTION_CHOOSER
+import android.content.Intent.ACTION_GET_CONTENT
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -38,10 +39,23 @@ class SignUpActivity : AppCompatActivity() {
 
         profile_img.setOnClickListener{
             Log.d("SignUpActivity", "try to show photo")
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
+//            val intent = Intent(Intent.ACTION_GET_CONTENT)
 //            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "images/*"
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0)
+//            val intent = Intent()
+//            intent.action = ACTION_GET_CONTENT
+//            intent.type = "images/*"
+//
+////            startActivityForResult(Intent.createChooser(intent, "Select Picture"), IMAGE_PICK_CODE)
+////
+////            startActivityForResult(intent, IMAGE_PICK_CODE)
+//
+//            if (intent.resolveActivity(packageManager) != null) {
+//                startActivityForResult(intent, IMAGE_PICK_CODE)
+//            }
+
+            val intent = Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, IMAGE_PICK_CODE)
 
         }
 
@@ -49,12 +63,14 @@ class SignUpActivity : AppCompatActivity() {
 
     }
 
+    private val IMAGE_PICK_CODE = 1;
+
     var selectedPhotoLocation: Uri? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == IMAGE_PICK_CODE && resultCode == Activity.RESULT_OK && data != null) {
             Log.d("SignUpActivity", "Photo was Picked")
 
             selectedPhotoLocation = data.data
@@ -62,13 +78,14 @@ class SignUpActivity : AppCompatActivity() {
             val bitmap = getBitmap(contentResolver, selectedPhotoLocation)
 
 
-//            image_view.setImageBitmap(bitmap)
+//            profile_img.setImageBitmap(bitmap)
 //
 //            profile_img.alpha = 0f
             val bitmapDrawable = BitmapDrawable(bitmap)
             profile_img.setBackgroundDrawable(bitmapDrawable)
         }
     }
+
 
     private fun performRegister(){
         val email = email_register.text.toString()
@@ -94,6 +111,9 @@ class SignUpActivity : AppCompatActivity() {
             Log.d("SignUpActivity", "Successfully Created user with Uid: ${it.result?.user?.uid}")
 
             uploadProfile_Img_to_Firebase()
+            val intent = Intent(this, MessagePageActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
 
         }
             .addOnFailureListener {
@@ -118,13 +138,14 @@ class SignUpActivity : AppCompatActivity() {
                 Log.d("SignUpActivity", "Success Uploaded : ${it.metadata?.path}")
                 
                 ref.downloadUrl.addOnSuccessListener { 
-                    it.toString()
+//                    it.toString()
                     Log.d("SignUp", "File Location: $it")
 
                     saveUserToFirebase_DB(it.toString())
                 }
             }
             .addOnFailureListener {
+                Log.d("SignUpActivity", "Failure to uploaad pic : ${it.message}")
 
             }
     }
@@ -133,14 +154,14 @@ class SignUpActivity : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?:""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
-        var user = User(usrname_register.text.toString(), profileImageUrl,uid)
+        var user = User(usrname_register.text.toString(), profileImageUrl, uid)
         ref.setValue(user)
             .addOnSuccessListener {
                 Log.d("SignupActivity", "saved user to Firebase DB")
 
-            val intent = Intent(this, MessagePageActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+//            val intent = Intent(this, MessagePageActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                startActivity(intent)
 
 
             }
@@ -150,4 +171,6 @@ class SignUpActivity : AppCompatActivity() {
     }
 }
 
-class User(val Username: String, val profileImageUrl: String, val uid: String)
+class User(val username: String, val profileImageUrl: String, val uid: String){
+    constructor() : this("","","")
+}

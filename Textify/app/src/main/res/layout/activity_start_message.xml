@@ -8,10 +8,11 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id = "@+id/contact_list"
+        android:id="@+id/contact_list"
+        android:layout_width="411dp"
+        android:layout_height="684dp"
+        android:layout_marginTop="@android:dimen/notification_large_icon_height"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

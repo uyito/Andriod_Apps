@@ -8,4 +8,8 @@
     <string name="don_t_have_account_register">Don\'t Have Account? Register</string>
     <string name="sign_in">Sign in</string>
     <string name="select_photo">SELECT PHOTO</string>
+    <string name="User_name">UserName</string>
+    <string name="photo">photo</string>
+    <string name="enter_message">Enter Message</string>
+    <string name="send">Send</string>
 </resources>

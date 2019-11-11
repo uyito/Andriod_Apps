@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.0'
     implementation 'com.google.firebase:firebase-database:19.2.0'
 
+
     //View Library
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
@@ -56,4 +57,3 @@ dependencies {
 
 
 }
-
