@@ -23,13 +23,16 @@ class ConversationActivity : AppCompatActivity() {
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         adapter.add(ChatItem())
+//        adapter.add(ChatItem())
+//        adapter.add(ChatItem())
+//        adapter.add(ChatItem())
 
         message_logs_view.adapter = adapter
     }
 }
 
 
-class ChatItem(): Item<GroupieViewHolder>() {
+class ChatItem: Item<GroupieViewHolder>() {
 
     override fun getLayout(): Int {
 
